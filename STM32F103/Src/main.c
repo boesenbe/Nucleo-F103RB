@@ -64,6 +64,23 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN 0 */
 
+void getPinStatus(GPIO_TypeDef *GPIOx, uint16_t Pin, uint8_t* CURRENT_status, uint8_t* status ){
+
+	if((uint8_t*)HAL_GPIO_ReadPin(GPIOx,Pin) != CURRENT_status)
+			  {  CURRENT_status = (uint8_t*)HAL_GPIO_ReadPin(GPIOx,Pin);
+
+			  	  *status = 0;
+
+			  if(!HAL_GPIO_ReadPin(GPIOx,Pin)){
+
+				  //HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
+				  *status = 1;
+
+			  }
+			  }
+
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -83,15 +100,15 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  //char *msg = "test /n";
 
-  u_int8_t CURENT_status = 0;
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
+
+
 
   /* USER CODE END SysInit */
 
@@ -108,8 +125,9 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   char Buffer_counter[14];
-  char Buffer_limitswitch[14];
-  uint8_t limitswitch[3];
+  char Buffer_limitswitch[11];
+  uint8_t limitswitch[6];
+  uint8_t CURRENT_status[6];
   uint32_t count[3];
   while (1)
   {
@@ -117,31 +135,27 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	  //count = TIM1->CNT;
-	  //HAL_UART_Transmit(&huart2, (uint8_t*)buffer, sprintf(buffer, "%04lu \n", count), 0xFFFF);
 	  count[0] = TIM1->CNT;
 	  count[1] = TIM2->CNT;
 	  count[2] = TIM3->CNT;
-	  HAL_UART_Transmit(&huart2, (uint8_t*)Buffer_counter, sprintf(Buffer_counter, "C 1)\t %04lu \r\n", count[0]), 0xFFFF);
-	  HAL_UART_Transmit(&huart2, (uint8_t*)Buffer_counter, sprintf(Buffer_counter, "C 2)\t %04lu \r\n", count[1]), 0xFFFF);
-	  HAL_UART_Transmit(&huart2, (uint8_t*)Buffer_counter, sprintf(Buffer_counter, "C 3)\t %04lu \r\n", count[2]), 0xFFFF);
 
-	  if(HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_9) != CURENT_status)
-	  {  CURENT_status = HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_9);
+	  getPinStatus(GPIOC,GPIO_PIN_6,&CURRENT_status[0],&limitswitch[0]);
+	  getPinStatus(GPIOB,GPIO_PIN_13,&CURRENT_status[1],&limitswitch[1]);
+	  getPinStatus(GPIOC,GPIO_PIN_8,&CURRENT_status[2],&limitswitch[2]);
+	  getPinStatus(GPIOC,GPIO_PIN_9,&CURRENT_status[3],&limitswitch[3]);
+	  getPinStatus(GPIOB,GPIO_PIN_14,&CURRENT_status[4],&limitswitch[4]);
+	  getPinStatus(GPIOB,GPIO_PIN_15,&CURRENT_status[5],&limitswitch[5]);
 
-	  	  limitswitch[0] = 0;
-
-	  if(!HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_9)){
-
-		  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
-		  limitswitch[0] = 1;
-
-	  }
+	  for (int var = 0; var <= 2; ++var) {
+	  		  HAL_UART_Transmit(&huart2, (uint8_t*)Buffer_counter, sprintf(Buffer_counter, "C  %d)\t %04lu \r\n",var+1, count[var]), 0xFFFF);
 	  }
 
-	  HAL_UART_Transmit(&huart2, (uint8_t*)Buffer_limitswitch, sprintf(Buffer_limitswitch, "LS F 1)\t %d \r\n", limitswitch[0]), 0xFFFF);
+	  for (int var = 0; var <= 5; ++var) {
+		  HAL_UART_Transmit(&huart2, (uint8_t*)Buffer_limitswitch, sprintf(Buffer_limitswitch, "LS %d)\t %d \r\n", var+1, limitswitch[var]), 0xFFFF);
+	  }
 
-	  HAL_Delay(50);
+
+	  HAL_Delay(40);
   }
   /* USER CODE END 3 */
 
@@ -197,8 +211,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-
 
 /* USER CODE END 4 */
 

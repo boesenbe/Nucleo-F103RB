@@ -62,7 +62,7 @@ extern void _Error_Handler(char *, int);
 void MX_USART2_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void sendPinStatus(GPIO_TypeDef* , uint16_t, uint8_t*, uint8_t*);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

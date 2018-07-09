@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project>
-<ProjectName>C:\Users\Morit\Desktop\_STMspielwiese\STM32F103\\STM32F103</ProjectName>
+<ProjectName>C:\Users\Morit\Desktop\Nucleo-F103RB\STM32F103\\STM32F103</ProjectName>
 <ProjectNature>C</ProjectNature> 
 <CMSIS>..\Drivers\CMSIS</CMSIS>
 <HAL_Driver>C:\Users\Morit\STM32Cube\Repository\STM32Cube_FW_F1_V1.6.1\Drivers\CMSIS</HAL_Driver>
