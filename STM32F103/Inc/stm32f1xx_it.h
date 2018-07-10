@@ -47,9 +47,8 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-void SVC_Handler(void);
-void PendSV_Handler(void);
 void SysTick_Handler(void);
+void TIM4_IRQHandler(void);
 
 #ifdef __cplusplus
 }
