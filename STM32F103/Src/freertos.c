@@ -153,11 +153,11 @@ void Send_Data(void const * argument)
 	  getPinStatus(GPIOB,GPIO_PIN_15,&CURRENT_status[5],&limitswitch[5]);
 
 	  for (int var = 0; var <= 2; ++var) {
-			  HAL_UART_Transmit(&huart2, (uint8_t*)Buffer_counter, sprintf(Buffer_counter, "C  %d)\t %04lu \r\n",var+1, count[var]), 0xFFFF);
+			  HAL_UART_Transmit(&huart1, (uint8_t*)Buffer_counter, sprintf(Buffer_counter, "C  %d)\t %04lu \r\n",var+1, count[var]), 0xFFFF);
 	  }
 
 	  for (int var = 0; var <= 5; ++var) {
-		  HAL_UART_Transmit(&huart2, (uint8_t*)Buffer_limitswitch, sprintf(Buffer_limitswitch, "LS %d)\t %d \r\n", var+1, limitswitch[var]), 0xFFFF);
+		  HAL_UART_Transmit(&huart1, (uint8_t*)Buffer_limitswitch, sprintf(Buffer_limitswitch, "LS %d)\t %d \r\n", var+1, limitswitch[var]), 0xFFFF);
 	  }
 
   }
